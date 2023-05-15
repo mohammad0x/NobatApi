@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'knox',
+    'api',
 
 ]
 
@@ -70,8 +72,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'NobatApi.wsgi.application'
+AUTH_USER_MODEL = 'api.MyUser'
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'knox.auth.TokenAuthentication',
+    ]
+}
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
