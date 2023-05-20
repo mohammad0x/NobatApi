@@ -29,3 +29,8 @@ class RegisterSerializerHair(serializers.ModelSerializer):
         user = MyUser.objects.create_user(validated_data['email'], validated_data['username'], validated_data['password'],is_hair_style=True)
 
         return user
+
+class Category_createServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category_createService
+        fields = ('title', 'status', 'image')

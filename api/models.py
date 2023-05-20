@@ -108,7 +108,7 @@ class Category_createService(models.Model):
     title = models.CharField(max_length=100)
     image = models.ImageField(upload_to='category_image/')
     status = models.BooleanField(default=True)
-    position = models.IntegerField()
+    position = models.IntegerField(null = True)
 
     class Meta:
         ordering = ['position']
