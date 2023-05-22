@@ -9,4 +9,6 @@ urlpatterns = [
     path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
     path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
     path('api/categoryCreateService/', categoryCreateService.as_view(), name='CategoryCreateService'),
+    path('api/createService/<int:id>', createService.as_view(), name='createService'),
+    path('api/categoryCreate/<int:id>', categoryCreate.as_view(), name='categoryCreate'),
 ]

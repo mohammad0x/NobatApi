@@ -1,15 +1,17 @@
+import json
 from django.contrib.auth import login
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import *
 from .models import MyUser
+from django.http import JsonResponse, HttpResponse
 # Register API
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -48,6 +50,9 @@ class LoginAPI(KnoxLoginView):
         return super(LoginAPI, self).post(request, format=None)
 
 class categoryCreateService(APIView):
+    def get(self, request, format=None):
+        data = Category_createService.objects.all().values()
+        return Response(data)
 
     def post(self, request, *args, **kwargs):
         data = {
@@ -61,3 +66,20 @@ class categoryCreateService(APIView):
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+class createService(APIView):
+    def get(self, request, id):
+        data = Category_Service.objects.filter(services_id = id).values()
+        return Response(data)
+class categoryCreate(APIView):
+    def get(self, request, id):
+        data = get_object_or_404(Category_Service, id = id,status=True)
+        print(data.position)
+        print(data.image)
+        return JsonResponse({
+            'id':data.id,
+            'title':data.title,
+            'image':data.image.url,
+            'status':data.status,
+            'position':data.position,
+        },status=status.HTTP_200_OK)
