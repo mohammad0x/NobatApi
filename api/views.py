@@ -47,6 +47,7 @@ class LoginAPI(KnoxLoginView):
         login(request, user)
         return super(LoginAPI, self).post(request, format=None)
 
+# add
 class categoryCreateService(APIView):
 
     def post(self, request, *args, **kwargs):
