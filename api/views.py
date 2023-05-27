@@ -67,10 +67,6 @@ class categoryCreateService(APIView):
         else:
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-class createService(APIView):
-    def get(self, request, id):
-        data = Category_Service.objects.filter(services_id = id).values()
-        return Response(data)
 class categoryCreate(APIView):
     def get(self, request, id):
         data = get_object_or_404(Category_Service, id = id,status=True)
@@ -101,3 +97,20 @@ class ProfileView(APIView):
 class UpdateProfile(generics.GenericAPIView):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
+
+class createService(APIView):
+    serializer_class = CreateServiceSerializer
+    def post(self, request, id, *args, **kwargs,):
+        data = {
+            'category': request.data.get('category'),
+            'user': request.data.get(id),
+            'title': request.data.get('title'),
+            'slug': request.data.get('slug'),
+            'image': request.data.get('image'),
+        }
+        serializer = CreateServiceSerializer(data = data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
