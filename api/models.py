@@ -147,9 +147,6 @@ class Create_Service(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     edit = models.BooleanField(default=False)
 
-
-
-
     def __str__(self):
         return self.title
 
