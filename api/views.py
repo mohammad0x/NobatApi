@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.contrib.auth import login
 from rest_framework import permissions
 from rest_framework.views import APIView
@@ -9,7 +10,9 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import *
+from rest_framework.renderers import JSONRenderer
 from .models import MyUser
+from django.http import JsonResponse
 # Register API
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -63,3 +66,17 @@ class categoryCreateService(APIView):
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+class ListCategoryCreateService(APIView):
+    renderer_classes = [JSONRenderer]
+
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+
+        """
+        from django.core import serializers
+
+        # content = serializers.serialize("json", Category_createService.objects.filter(status=True).values())
+        content = Category_createService.objects.filter(status=True).values()
+        return Response(content,status=status.HTTP_200_OK)
