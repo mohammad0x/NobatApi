@@ -74,8 +74,6 @@ class createService(APIView):
 class categoryCreate(APIView):
     def get(self, request, id):
         data = get_object_or_404(Category_Service, id = id,status=True)
-        print(data.position)
-        print(data.image)
         return JsonResponse({
             'id':data.id,
             'title':data.title,
@@ -83,3 +81,7 @@ class categoryCreate(APIView):
             'status':data.status,
             'position':data.position,
         },status=status.HTTP_200_OK)
+
+class UpdateUser(generics.UpdateAPIView):
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.all()
