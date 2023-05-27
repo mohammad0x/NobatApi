@@ -130,3 +130,64 @@ class Category_Service(models.Model):
     def __str__(self):
         return self.title
 
+class Create_Service(models.Model):
+    STATUS_CHOICES = (
+        (1, 'one'),
+        (2, 'two'),
+        (3, 'three'),
+        (4, 'four'),
+        (5, 'five'),
+    )
+    category = models.ManyToManyField(Category_createService, related_name="Create_Services")
+    user = models.OneToOneField(MyUser, on_delete=models.CASCADE, related_name="Create_Service")
+    title = models.CharField(max_length=100, blank=False, null=False)
+    slug = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='service_image/')
+    score = models.CharField(max_length=5, choices=STATUS_CHOICES, blank=True)
+    publish = models.DateTimeField(default=timezone.now)
+    edit = models.BooleanField(default=False)
+
+
+
+
+    def __str__(self):
+        return self.title
+
+
+def save_create_service(sender, instance, **kwargs):
+    if kwargs['created'] and instance.is_hair_style == True:
+        create_service = Create_Service.objects.create(user=instance)
+        create_service.save()
+
+
+post_save.connect(save_create_service, sender=MyUser)
+
+class Service(models.Model):
+    category = models.ForeignKey(Category_Service, on_delete=models.CASCADE, related_name='Service')
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name="Service")
+    service = models.ForeignKey(Create_Service, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    price = models.IntegerField()
+    desc = models.TextField()
+    active = models.BooleanField(default=False)
+    publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Reserve(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='Reserves')
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='Reserve')
+    busy = models.BooleanField(default=False)
+    number = models.IntegerField()
+    date = models.CharField(max_length=10)
+    time = models.TimeField()
+
+    def __str__(self):
+        return self.service.title
+
+    def get_jalali_date(self):
+        return datetime2jalali(self.date)
