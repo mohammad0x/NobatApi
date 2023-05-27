@@ -74,12 +74,26 @@ class createService(APIView):
 class categoryCreate(APIView):
     def get(self, request, id):
         data = get_object_or_404(Category_Service, id = id,status=True)
-        print(data.position)
-        print(data.image)
+
         return JsonResponse({
             'id':data.id,
             'title':data.title,
             'image':data.image.url,
             'status':data.status,
             'position':data.position,
+        },status=status.HTTP_200_OK)
+class ProfileView(APIView):
+    def get(self, request ):
+        profile = Profile.objects.get(user_id=request.user.id)
+
+        return JsonResponse({
+            'id':profile.id,
+            'first_name':profile.first_name,
+            'last_name':profile.last_name,
+            'nationality_code':profile.nationality_code,
+            'phone':profile.phone,
+            'verify_code':profile.verify_code,
+            'city':profile.city,
+            'address':profile.address,
+            'photo':profile.photo.url,
         },status=status.HTTP_200_OK)
