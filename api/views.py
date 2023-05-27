@@ -98,6 +98,6 @@ class ProfileView(APIView):
             'photo':profile.photo.url,
         },status=status.HTTP_200_OK)
 
-class UpdateUser(generics.GenericAPIView):
+class UpdateProfile(generics.GenericAPIView):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
