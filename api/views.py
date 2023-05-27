@@ -97,3 +97,7 @@ class ProfileView(APIView):
             'address':profile.address,
             'photo':profile.photo.url,
         },status=status.HTTP_200_OK)
+
+class UpdateUser(generics.GenericAPIView):
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.all()
