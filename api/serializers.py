@@ -48,23 +48,21 @@ class ProfileUppdateSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # We try to get profile data
         # If we have one
-        profile = Profile
-        print(profile)
-        if profile is not None:
+        profile_data = validated_data.pop('profile', None)
+        if profile_data is not None:
             # We set address, assuming that you always set address
             # if you provide profile
-            instance.profile.first_name = profile['first_name']
-            instance.profile.last_name = profile['last_name']
-            instance.profile.nationality_code = profile['nationality_code']
-            instance.profile.phone = profile['phone']
-            instance.profile.city = profile['city']
-            instance.profile.address = profile['address']
-            instance.profile.photo = profile['photo']
+            instance.profile.first_name = profile_data['first_name']
+            instance.profile.last_name = profile_data['last_name']
+            instance.profile.nationality_code = profile_data['nationality_code']
+            instance.profile.phone = profile_data['phone']
+            instance.profile.city = profile_data['city']
+            instance.profile.address = profile_data['address']
+            instance.profile.photo = profile_data['photo']
             # And save profile
             instance.profile.save()
         # Rest will be handled by DRF
         return super().update(instance, validated_data)
-
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service

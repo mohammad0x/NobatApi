@@ -1,4 +1,5 @@
 import json
+from rest_framework.generics import RetrieveUpdateAPIView
 from django.contrib.auth import login
 from rest_framework import permissions
 from rest_framework.views import APIView
@@ -107,8 +108,8 @@ class ProfileView(APIView):
         }, status=status.HTTP_200_OK)
 
 
-class UpdateProfile(generics.GenericAPIView):
-    serializer_class = ProfileSerializer
+class UpdateProfile(RetrieveUpdateAPIView):
+    serializer_class = ProfileUppdateSerializer
     queryset = Profile.objects.all()
 
 
