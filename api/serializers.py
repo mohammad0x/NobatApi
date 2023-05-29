@@ -64,3 +64,8 @@ class ProfileUppdateSerializer(serializers.ModelSerializer):
             instance.profile.save()
         # Rest will be handled by DRF
         return super().update(instance, validated_data)
+
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
+        fields = ['user','category', 'service', 'title', 'price', 'desc', 'active']
