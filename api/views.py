@@ -1,6 +1,8 @@
 import json
 from django.contrib.auth import login
 from rest_framework import permissions
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -98,6 +100,14 @@ class ProfileView(APIView):
             'photo':profile.photo.url,
         },status=status.HTTP_200_OK)
 
-class UpdateProfile(generics.GenericAPIView):
-    serializer_class = ProfileSerializer
+class UpdateProfile(RetrieveUpdateAPIView):
+    serializer_class = ProfileUpdateSerializer
     queryset = Profile.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+class UpdateCreateService(RetrieveUpdateAPIView):
+    serializer_class = CreateServiceSerializers
+    queryset = Create_Service.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+

@@ -40,7 +40,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('first_name', 'last_name', 'nationality_code', 'phone', 'city', 'address', 'photo')
 
-class ProfileUppdateSerializer(serializers.ModelSerializer):
+class ProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ('first_name', 'last_name', 'nationality_code', 'phone', 'city', 'address', 'photo')
@@ -48,8 +48,7 @@ class ProfileUppdateSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # We try to get profile data
         # If we have one
-        profile = Profile
-        print(profile)
+        profile = validated_data.pop('profile',None)
         if profile is not None:
             # We set address, assuming that you always set address
             # if you provide profile
@@ -62,5 +61,27 @@ class ProfileUppdateSerializer(serializers.ModelSerializer):
             instance.profile.photo = profile['photo']
             # And save profile
             instance.profile.save()
+        # Rest will be handled by DRF
+        return super().update(instance, validated_data)
+
+class CreateServiceSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Create_Service
+        fields = ('category', 'user', 'title', 'slug', 'image', 'score')
+    def update(self, instance, validated_data):
+        # We try to get profile data
+        # If we have one
+        create_Service = validated_data.pop('create_service',None)
+        if create_Service is not None:
+            # We set address, assuming that you always set address
+            # if you provide profile
+            instance.create_Service.category = create_Service['category']
+            instance.create_Service.user = create_Service['user']
+            instance.create_Service.title = create_Service['title']
+            instance.create_Service.slug = create_Service['slug']
+            instance.create_Service.image = create_Service['image']
+            instance.create_Service.score = create_Service['score']
+            # And save profile
+            instance.create_Service.save()
         # Rest will be handled by DRF
         return super().update(instance, validated_data)
