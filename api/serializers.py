@@ -106,3 +106,8 @@ class ServiceUpdateSerializer(serializers.ModelSerializer):
         if Service_data is not None:
             instance.service.save()
         return super().update(instance, validated_data)
+
+class ReserveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reserve
+        fields = ('user', 'service', 'busy', 'number', 'date', 'time')

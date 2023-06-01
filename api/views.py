@@ -156,3 +156,21 @@ class deleteService(generics.GenericAPIView):
         object = self.get_object(pk)
         object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class reserve(generics.GenericAPIView):
+    serializer_class = ReserveSerializer
+    def post(self, request, id, *args, **kwargs):
+        data = {
+            'user': request.user.id,
+            'service': id,
+            'number': request.data.get('number'),
+            'busy': request.data.get('busy'),
+            'date': request.data.get('date'),
+            'time': request.data.get('time'),
+        }
+        serializer = ReserveSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

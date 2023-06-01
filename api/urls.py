@@ -18,4 +18,5 @@ urlpatterns = [
     path('api/service', service.as_view(), name='service'),
     path('api/updateService/<int:pk>', UpdateService.as_view(), name='UpdateService'),
     path('api/deleteService/<int:pk>', deleteService.as_view(), name='deleteService'),
+    path('api/reserve/<int:id>', reserve.as_view(), name='deleteService'),
 ]
