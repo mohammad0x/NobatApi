@@ -63,10 +63,6 @@ class ProfileUppdateSerializer(serializers.ModelSerializer):
             instance.profile.save()
         # Rest will be handled by DRF
         return super().update(instance, validated_data)
-class ServiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Service
-        fields = ['user','category', 'service', 'title', 'price', 'desc', 'active']
 
 class CreateServiceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -93,4 +89,20 @@ class CreateServiceUpdateSerializer(serializers.ModelSerializer):
             # And save profile
             instance.createservice.save()
         # Rest will be handled by DRF
+        return super().update(instance, validated_data)
+
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
+        fields = ['user','category', 'service', 'title', 'price', 'desc', 'active']
+
+class ServiceUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
+        fields = ('category', 'service', 'title', 'price', 'desc', 'active')
+
+    def update(self, instance, validated_data):
+        Service_data = validated_data.pop('service', None)
+        if Service_data is not None:
+            instance.service.save()
         return super().update(instance, validated_data)

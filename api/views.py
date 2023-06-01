@@ -1,5 +1,9 @@
 import json
 from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
+from rest_framework import viewsets
 from django.contrib.auth import login
 from rest_framework import permissions
 from rest_framework.views import APIView
@@ -27,7 +31,6 @@ class RegisterAPI(generics.GenericAPIView):
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "token": AuthToken.objects.create(user)[1]
         })
-
 
 class RegisterHairAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializerHair
@@ -71,7 +74,6 @@ class categoryCreateService(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 class createService(APIView):
     def get(self, request, id):
         data = Category_Service.objects.filter(services_id=id).values()
@@ -80,7 +82,6 @@ class createService(APIView):
 class UpdateCreateService(RetrieveUpdateAPIView):
     serializer_class = CreateServiceSerializer
     queryset = Create_Service.objects.all()
-
 
 class categoryCreate(APIView):
     def get(self, request, id):
@@ -137,3 +138,21 @@ class service(generics.GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UpdateService(RetrieveUpdateAPIView):
+    serializer_class = ServiceUpdateSerializer
+    queryset = Service.objects.all()
+
+class deleteService(generics.GenericAPIView):
+    model = Service
+    serializer_class = ServiceSerializer
+
+    def get_object(self, pk):
+        try:
+            return Service.objects.get(user=self.request.user, pk=pk)
+        except Service.DoesNotExist:
+            raise Http404
+
+    def delete(self, request, pk, format=None):
+        object = self.get_object(pk)
+        object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
