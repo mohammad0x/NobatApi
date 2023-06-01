@@ -174,3 +174,32 @@ class reserve(generics.GenericAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class image(generics.GenericAPIView):
+    serializer_class = ImageSerializer
+    def post(self, request, id, *args, **kwargs):
+        data = {
+            'poster': id,
+            'image': request.data.get('image'),
+        }
+        serializer = ImageSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class deleteImage(generics.GenericAPIView):
+    model = Image
+    serializer_class = ImageSerializer
+
+    def get_object(self, pk):
+        try:
+            return Image.objects.get(pk=pk)
+        except Image.DoesNotExist:
+            raise Http404
+
+    def delete(self, request, pk, format=None):
+        object = self.get_object(pk)
+        object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -111,3 +111,13 @@ class ReserveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reserve
         fields = ('user', 'service', 'busy', 'number', 'date', 'time')
+
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ('poster', 'image')
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ('user', 'reply', 'post_key', 'rate', 'desc', 'date', 'is_reply')

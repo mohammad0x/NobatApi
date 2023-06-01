@@ -191,3 +191,36 @@ class Reserve(models.Model):
 
     def get_jalali_date(self):
         return datetime2jalali(self.date)
+
+class Image(models.Model):
+    poster = models.ForeignKey(Create_Service, on_delete=models.CASCADE, related_name='post')
+    image = models.ImageField(upload_to='pos_image/')
+
+class Like(models.Model):
+    like = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, blank=True, related_name = 'user_like')
+    image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, blank=True, related_name = 'post_like')
+
+class DisLike(models.Model):
+    dislike = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, blank=True, related_name='user_dislike')
+    image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, blank=True, related_name='post_dislike')
+
+class Comment(models.Model):
+    user = models.ForeignKey(MyUser, related_name='user', on_delete=models.CASCADE)
+    reply = models.ForeignKey("self", related_name='commentid', on_delete=models.CASCADE, blank=True, null=True)
+    post_key = models.ForeignKey(Create_Service, related_name='post_key', on_delete=models.CASCADE)
+    rate = models.PositiveIntegerField(default=1)
+    desc = models.TextField(max_length=700)
+    date = models.DateTimeField(default=timezone.now)
+    is_reply = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.post_key.title
+
+class comment_form(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['desc', 'rate']
+class reply_form(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['desc']
