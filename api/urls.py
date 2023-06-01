@@ -13,5 +13,6 @@ urlpatterns = [
     path('api/categoryCreate/<int:id>', categoryCreate.as_view(), name='categoryCreate'),
     path('api/profile', ProfileView.as_view(), name='profileView'),
     path('api/updateProfile/<int:pk>', UpdateProfile.as_view(), name='updateProfile'),
+    path('api/updateCreateService/<int:pk>', UpdateCreateService.as_view(), name='UpdateCreateService'),
     path('api/service', service.as_view(), name='service'),
 ]

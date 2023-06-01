@@ -70,12 +70,11 @@ class ServiceSerializer(serializers.ModelSerializer):
 
 class CreateServiceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Service
+        model = Create_Service
         fields = ['category', 'title', 'slug', 'image']
 
 
 class CreateServiceUpdateSerializer(serializers.ModelSerializer):
-    CreateService=
     class Meta:
         model = Create_Service
         fields = ('category', 'title', 'slug', 'image')
@@ -83,15 +82,15 @@ class CreateServiceUpdateSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # We try to get profile data
         # If we have one
-        createService_data = validated_data.pop('profile', None)
-        if profile_data is not None:
+        createService_data = validated_data.pop('createservice', None)
+        if createService_data is not None:
             # We set address, assuming that you always set address
             # if you provide profile
-            instance.profile.category = profile_data['category']
-            instance.profile.title = profile_data['title']
-            instance.profile.slug = profile_data['slug']
-            instance.profile.image = profile_data['image']
+            instance.createservice.category = createService_data['category']
+            instance.createservice.title = createService_data['title']
+            instance.createservice.slug = createService_data['slug']
+            instance.createservice.image = createService_data['image']
             # And save profile
-            instance.profile.save()
+            instance.createservice.save()
         # Rest will be handled by DRF
         return super().update(instance, validated_data)

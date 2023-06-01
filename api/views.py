@@ -77,6 +77,10 @@ class createService(APIView):
         data = Category_Service.objects.filter(services_id=id).values()
         return Response(data)
 
+class UpdateCreateService(RetrieveUpdateAPIView):
+    serializer_class = CreateServiceSerializer
+    queryset = Create_Service.objects.all()
+
 
 class categoryCreate(APIView):
     def get(self, request, id):
@@ -132,3 +136,4 @@ class service(generics.GenericAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
