@@ -16,7 +16,7 @@ from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import *
 from .models import MyUser
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, Http404
 
 
 # Register API
