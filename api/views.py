@@ -74,10 +74,7 @@ class categoryCreateService(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class createService(APIView):
-    def get(self, request, id):
-        data = Category_Service.objects.filter(services_id=id).values()
-        return Response(data)
+
 
 class UpdateCreateService(RetrieveUpdateAPIView):
     serializer_class = CreateServiceSerializer
@@ -205,3 +202,8 @@ class delete_post(generics.GenericAPIView):
         object = self.get_object(pk)
         object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+class myService(APIView):
+    def get(self, request):
+        data = Service.objects.filter(user_id=request.user.id).values()
+        return Response(data)
+

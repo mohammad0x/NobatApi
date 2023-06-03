@@ -13,7 +13,6 @@ urlpatterns = [
     path('api/categoryCreate/<int:id>', categoryCreate.as_view(), name='categoryCreate'),
     path('api/profile', ProfileView.as_view(), name='profileView'),
     path('api/updateProfile/<int:pk>', UpdateProfile.as_view(), name='updateProfile'),
-    path('api/createService/<int:id>', createService.as_view(), name='createService'),
     path('api/updateCreateService/<int:pk>', UpdateCreateService.as_view(), name='UpdateCreateService'),
     path('api/service', service.as_view(), name='service'),
     path('api/updateService/<int:pk>', UpdateService.as_view(), name='UpdateService'),
@@ -21,4 +20,5 @@ urlpatterns = [
     path('api/reserve/<int:id>', reserve.as_view(), name='deleteService'),
     path('api/add_post/<int:id>', add_post.as_view(), name='addpost'),
     path('api/delete_post/<int:pk>', delete_post.as_view(), name='delete_post'),
+    path('api/myService', myService.as_view(), name='myService'),
 ]
