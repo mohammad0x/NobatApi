@@ -175,7 +175,7 @@ class reserve(generics.GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class image(generics.GenericAPIView):
+class add_post(generics.GenericAPIView):
     serializer_class = ImageSerializer
     def post(self, request, id, *args, **kwargs):
         data = {
@@ -191,7 +191,7 @@ class image(generics.GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class deleteImage(generics.GenericAPIView):
+class delete_post(generics.GenericAPIView):
     model = Image
     serializer_class = ImageSerializer
 

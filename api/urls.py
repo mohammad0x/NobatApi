@@ -19,6 +19,6 @@ urlpatterns = [
     path('api/updateService/<int:pk>', UpdateService.as_view(), name='UpdateService'),
     path('api/deleteService/<int:pk>', deleteService.as_view(), name='deleteService'),
     path('api/reserve/<int:id>', reserve.as_view(), name='deleteService'),
-    path('api/addImage/<int:id>', image.as_view(), name='addImage'),
-    path('api/deleteImage/<int:pk>', deleteImage.as_view(), name='deleteImage'),
+    path('api/add_post/<int:id>', add_post.as_view(), name='addpost'),
+    path('api/delete_post/<int:pk>', delete_post.as_view(), name='delete_post'),
 ]
