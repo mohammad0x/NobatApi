@@ -76,10 +76,7 @@ class categoryCreateService(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class createService(APIView):
-    def get(self, request, id):
-        data = Category_Service.objects.filter(services_id=id).values()
-        return Response(data)
+
 
 class UpdateCreateService(RetrieveUpdateAPIView):
     serializer_class = CreateServiceSerializer
@@ -181,7 +178,7 @@ class reserve(generics.GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class image(generics.GenericAPIView):
+class add_post(generics.GenericAPIView):
     serializer_class = ImageSerializer
     def post(self, request, id, *args, **kwargs):
         data = {
@@ -223,3 +220,8 @@ class Search(APIView):
                 return Response(data)
             else:
                 return Response(None)
+class myService(APIView):
+    def get(self, request):
+        data = Service.objects.filter(user_id=request.user.id).values()
+        return Response(data)
+

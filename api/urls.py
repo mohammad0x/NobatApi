@@ -11,10 +11,8 @@ urlpatterns = [
     path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
     path('api/categoryCreateService/', categoryCreateService.as_view(), name='CategoryCreateService'),
     path('api/categoryCreate/<int:id>', categoryCreate.as_view(), name='categoryCreate'),
-    path('api/categoryService/<int:id>', categoryService.as_view(), name='categoryService'),
     path('api/profile', ProfileView.as_view(), name='profileView'),
     path('api/updateProfile/<int:pk>', UpdateProfile.as_view(), name='updateProfile'),
-    path('api/createService/<int:id>', createService.as_view(), name='createService'),
     path('api/updateCreateService/<int:pk>', UpdateCreateService.as_view(), name='UpdateCreateService'),
     path('api/service', service.as_view(), name='service'),
     path('api/updateService/<int:pk>', UpdateService.as_view(), name='UpdateService'),
@@ -23,4 +21,5 @@ urlpatterns = [
     path('api/addPost/<int:id>', addPost.as_view(), name='addImage'),
     path('api/deletePost/<int:pk>', deletePost.as_view(), name='deleteImage'),
     path('api/search/<str:searchs>', Search.as_view(), name='Search'),
+    path('api/myService', myService.as_view(), name='myService'),
 ]
