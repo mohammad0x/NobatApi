@@ -225,4 +225,9 @@ class myService(APIView):
         data = Service.objects.filter(user_id=request.user.id).values()
         return Response(data)
 
-
+class Home(APIView):
+    def get(self, request):
+        return Response({
+            'data_CategoryCreateService': Category_createService.objects.filter(status=True).values(),
+            'data_Create_Service': Create_Service.objects.filter(edit=True).order_by('-publish').values()
+        })

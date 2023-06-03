@@ -4,6 +4,7 @@ from knox import views as knox_views
 
 app_name = 'app'
 urlpatterns = [
+    path('api/', Home.as_view(), name='home'),
     path('api/register/', RegisterAPI.as_view(), name='register'),
     path('api/registerHair/', RegisterHairAPI.as_view(), name='register_hair'),
     path('api/login/', LoginAPI.as_view(), name='login'),
