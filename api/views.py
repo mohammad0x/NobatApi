@@ -225,3 +225,4 @@ class myService(APIView):
         data = Service.objects.filter(user_id=request.user.id).values()
         return Response(data)
 
+
