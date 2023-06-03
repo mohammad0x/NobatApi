@@ -115,7 +115,7 @@ class ReserveSerializer(serializers.ModelSerializer):
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ('poster', 'image')
+        fields = ('poster', 'image', 'like', 'dislike')
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:

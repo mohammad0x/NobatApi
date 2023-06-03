@@ -181,6 +181,8 @@ class image(generics.GenericAPIView):
         data = {
             'poster': id,
             'image': request.data.get('image'),
+            'like': request.data.get('like'),
+            'dislike': request.data.get('dislike'),
         }
         serializer = ImageSerializer(data=data)
         if serializer.is_valid():
