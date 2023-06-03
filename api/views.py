@@ -224,44 +224,53 @@ class myService(APIView):
     def get(self, request):
         data = Service.objects.filter(user_id=request.user.id).values()
         return Response(data)
-class Hair_stylist(APIView):
+class Hair_stylist(generics.GenericAPIView):
+    models = Comment
+    serializer_class = CommentSerializer
+    def post(self, request, id):
+        data = {
+            'user_id': request.user.id,
+            'reply_id': False,
+            'rate':request.data.get('rate'),
+            'desc':request.data.get('desc'),
+            'date': timezone.now(),
+            'is_reply': False,
+            'post_key_id': "2",
+        }
+        print(data.values())
+        serializer = comment_form(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def get(self, request,id):
         profile = get_object_or_404(Profile, user_id=id)
         service = Service.objects.filter(user_id=id).values()
         create_service = Create_Service.objects.get(user_id=id)
         image = Image.objects.filter(poster_id=create_service.id).values()
 
-        return Response({'service': service,
-                         'profile':{
-                            'id': profile.id,
-                            'first_name': profile.first_name,
-                            'last_name': profile.last_name,
-                            'nationality_code': profile.nationality_code,
-                            'phone': profile.phone,
-                            'verify_code': profile.verify_code,
-                            'city': profile.city,
-                            'address': profile.address,
-                            'photo': profile.photo.url,
-                         },
-                         'create_service':{
-                             'title': create_service.title,
-                             'slug': create_service.slug,
-                             'image': create_service.image.url,
-                             'score': create_service.score,
-                             'publish': create_service.publish,
-                             'edit': create_service.edit,
-                         },
-                         'image':image,
-                         })
-
-    def post(self, request , *args , **kwargs):
-        commentform = comment_form()
-        replyform = reply_form()
-        data = {
-            'desc':request.data.desc,
-            'rate':request.data.rate,
-
-        }
-        serializer = comment_form(data=data)
-        if serializer.is_valid():
-            serializer.save()
+        return Response({
+            'service': service,
+            'profile':{
+                'id': profile.id,
+                'first_name': profile.first_name,
+                'last_name': profile.last_name,
+                'nationality_code': profile.nationality_code,
+                'phone': profile.phone,
+                'verify_code': profile.verify_code,
+                'city': profile.city,
+                'address': profile.address,
+                'photo': profile.photo.url,
+            },
+            'create_service':{
+                'title': create_service.title,
+                'slug': create_service.slug,
+                'image': create_service.image.url,
+                'score': create_service.score,
+                'publish': create_service.publish,
+                'edit': create_service.edit,
+            },
+            'image':image,
+        })
