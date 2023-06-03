@@ -95,6 +95,10 @@ class categoryCreate(APIView):
             'position': data.position,
         }, status=status.HTTP_200_OK)
 
+class categoryService(APIView):
+    def get(self, request, id):
+        data = Category_Service.objects.filter(services_id=id).values()
+        return Response(data)
 
 class ProfileView(APIView):
     def get(self, request):
@@ -175,14 +179,14 @@ class reserve(generics.GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class image(generics.GenericAPIView):
+class addPost(generics.GenericAPIView):
     serializer_class = ImageSerializer
     def post(self, request, id, *args, **kwargs):
         data = {
             'poster': id,
             'image': request.data.get('image'),
-            'like': 0,
-            'dislike': 0,
+            'like': None,
+            'dislike': None,
         }
         serializer = ImageSerializer(data=data)
         if serializer.is_valid():
@@ -191,7 +195,7 @@ class image(generics.GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class deleteImage(generics.GenericAPIView):
+class deletePost(generics.GenericAPIView):
     model = Image
     serializer_class = ImageSerializer
 
