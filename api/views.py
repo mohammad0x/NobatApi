@@ -17,6 +17,7 @@ from knox.models import AuthToken
 from .serializers import *
 from .models import MyUser
 from django.http import JsonResponse, HttpResponse
+from django.db.models import Q
 
 
 # Register API
@@ -209,3 +210,15 @@ class deletePost(generics.GenericAPIView):
         object = self.get_object(pk)
         object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class Search(APIView):
+    def get(self, request, searchs):
+        if searchs:
+            if Service.objects.filter(Q(title=searchs)).exists():
+                data = Service.objects.filter(Q(title=searchs)).values()
+                return Response(data)
+            elif Create_Service.objects.filter(Q(title=searchs) | Q(slug=searchs)).exists():
+                data = Create_Service.objects.filter(Q(title=searchs) | Q(slug=searchs)).values()
+                return Response(data)
+            else:
+                return Response(None)

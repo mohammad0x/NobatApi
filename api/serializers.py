@@ -121,3 +121,4 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = ('user', 'reply', 'post_key', 'rate', 'desc', 'date', 'is_reply')
+
