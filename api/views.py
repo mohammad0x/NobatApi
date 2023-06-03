@@ -18,6 +18,7 @@ from .serializers import *
 from .models import MyUser
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
+from django.http import JsonResponse, HttpResponse, Http404
 
 
 # Register API
@@ -180,7 +181,7 @@ class reserve(generics.GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class addPost(generics.GenericAPIView):
+class image(generics.GenericAPIView):
     serializer_class = ImageSerializer
     def post(self, request, id, *args, **kwargs):
         data = {
