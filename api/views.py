@@ -245,32 +245,9 @@ class Hair_stylist(generics.GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request,id):
-        profile = get_object_or_404(Profile, user_id=id)
-        service = Service.objects.filter(user_id=id).values()
-        create_service = Create_Service.objects.get(user_id=id)
-        image = Image.objects.filter(poster_id=create_service.id).values()
-
+class Home(APIView):
+    def get(self, request):
         return Response({
-            'service': service,
-            'profile':{
-                'id': profile.id,
-                'first_name': profile.first_name,
-                'last_name': profile.last_name,
-                'nationality_code': profile.nationality_code,
-                'phone': profile.phone,
-                'verify_code': profile.verify_code,
-                'city': profile.city,
-                'address': profile.address,
-                'photo': profile.photo.url,
-            },
-            'create_service':{
-                'title': create_service.title,
-                'slug': create_service.slug,
-                'image': create_service.image.url,
-                'score': create_service.score,
-                'publish': create_service.publish,
-                'edit': create_service.edit,
-            },
-            'image':image,
+            'data_CategoryCreateService': Category_createService.objects.filter(status=True).values(),
+            'data_Create_Service': Create_Service.objects.filter(edit=True).order_by('-publish').values()
         })

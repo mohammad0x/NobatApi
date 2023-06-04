@@ -67,13 +67,13 @@ class ProfileUppdateSerializer(serializers.ModelSerializer):
 class CreateServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Create_Service
-        fields = ['category', 'title', 'slug', 'image']
+        fields = ['category', 'title', 'slug', 'image', 'edit']
 
 
 class CreateServiceUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Create_Service
-        fields = ('category', 'title', 'slug', 'image')
+        fields = ('category', 'title', 'slug', 'image', 'edit')
 
     def update(self, instance, validated_data):
         # We try to get profile data
@@ -86,6 +86,7 @@ class CreateServiceUpdateSerializer(serializers.ModelSerializer):
             instance.createservice.title = createService_data['title']
             instance.createservice.slug = createService_data['slug']
             instance.createservice.image = createService_data['image']
+            instance.createservice.edit = createService_data['edit']
             # And save profile
             instance.createservice.save()
         # Rest will be handled by DRF
