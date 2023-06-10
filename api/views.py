@@ -279,7 +279,6 @@ class Home(APIView):
             'data_Create_Service': Create_Service.objects.filter(edit=True).order_by('-publish').values()
         })
 
-
 class like(APIView):
     model = Like
     serializer_class = LikeSerializer
