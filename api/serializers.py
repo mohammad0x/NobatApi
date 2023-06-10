@@ -86,7 +86,6 @@ class CreateServiceUpdateSerializer(serializers.ModelSerializer):
             instance.createservice.title = createService_data['title']
             instance.createservice.slug = createService_data['slug']
             instance.createservice.image = createService_data['image']
-            instance.createservice.edit = createService_data['edit']
             # And save profile
             instance.createservice.save()
         # Rest will be handled by DRF
@@ -119,11 +118,9 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = ('poster', 'image')
 
 class CommentSerializer(serializers.ModelSerializer):
-    # user = UserSerializer
-    # HairStyle = CreateServiceSerializer
     class Meta:
         model = Comment
-        fields = ('user', 'reply', 'HairStyle', 'rate', 'desc', 'date', 'is_reply')
+        fields = ('user', 'post_key', 'rate', 'desc', 'date')
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:

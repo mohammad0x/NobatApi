@@ -34,7 +34,6 @@ class RegisterAPI(generics.GenericAPIView):
             "token": AuthToken.objects.create(user)[1]
         })
 
-
 class RegisterHairAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializerHair
 
@@ -78,10 +77,10 @@ class categoryCreateService(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 class UpdateCreateService(RetrieveUpdateAPIView):
     serializer_class = CreateServiceSerializer
     queryset = Create_Service.objects.all()
-
 
 class categoryCreate(APIView):
     def get(self, request, id):
@@ -95,12 +94,10 @@ class categoryCreate(APIView):
             'position': data.position,
         }, status=status.HTTP_200_OK)
 
-
 class categoryService(APIView):
     def get(self, request, id):
         data = Category_Service.objects.filter(services_id=id).values()
         return Response(data)
-
 
 class ProfileView(APIView):
     def get(self, request):
@@ -144,11 +141,9 @@ class service(generics.GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 class UpdateService(RetrieveUpdateAPIView):
     serializer_class = ServiceUpdateSerializer
     queryset = Service.objects.all()
-
 
 class deleteService(generics.GenericAPIView):
     model = Service
@@ -165,10 +160,8 @@ class deleteService(generics.GenericAPIView):
         object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
 class reserve(generics.GenericAPIView):
     serializer_class = ReserveSerializer
-
     def post(self, request, id, *args, **kwargs):
         data = {
             'user': request.user.id,
@@ -185,10 +178,8 @@ class reserve(generics.GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 class addPost(generics.GenericAPIView):
     serializer_class = ImageSerializer
-
     def post(self, request, id, *args, **kwargs):
         data = {
             'poster': id,
@@ -200,7 +191,6 @@ class addPost(generics.GenericAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class deletePost(generics.GenericAPIView):
     model = Image
@@ -217,7 +207,6 @@ class deletePost(generics.GenericAPIView):
         object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
 class Search(APIView):
     def get(self, request, searchs):
         if searchs:
@@ -230,37 +219,58 @@ class Search(APIView):
             else:
                 return Response(None)
 
-
 class myService(APIView):
     def get(self, request):
         data = Service.objects.filter(user_id=request.user.id).values()
         return Response(data)
 
-
-class Hair_stylist(APIView):
+class Hair_stylist(generics.GenericAPIView):
     models = Comment
     serializer_class = CommentSerializer
-
-    def post(self, request, id, *args, **kwargs):
-        print(request.user.id)
+    def post(self, request, id , *args , **kwargs):
         data = {
-            'HairStyle': id,
             'user': request.user.id,
-            'reply': False,
-            'rate': request.data.get('rate'),
-            'desc': request.data.get('desc'),
+            'rate':request.data.get('rate'),
+            'desc':request.data.get('desc'),
             'date': timezone.now(),
-            'is_reply': False,
+            'post_key':id,
         }
-        print(data.values())
-        print(request.user.id)
-        serializer = comment_form(data=data)
+        serializer = CommentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def get(self, request,id):
+        profile = get_object_or_404(Profile, user_id=id)
+        service = Service.objects.filter(user_id=id).values()
+        create_service = Create_Service.objects.get(user_id=id)
+        image = Image.objects.filter(poster_id=create_service.id).values()
+
+        return Response({
+            'service': service,
+            'profile':{
+                'id': profile.id,
+                'first_name': profile.first_name,
+                'last_name': profile.last_name,
+                'nationality_code': profile.nationality_code,
+                'phone': profile.phone,
+                'verify_code': profile.verify_code,
+                'city': profile.city,
+                'address': profile.address,
+                'photo': profile.photo.url,
+            },
+            'create_service':{
+                'title': create_service.title,
+                'slug': create_service.slug,
+                'image': create_service.image.url,
+                'score': create_service.score,
+                'publish': create_service.publish,
+                'edit': create_service.edit,
+            },
+            'image':image,
+        })
 
 class Home(APIView):
     def get(self, request):

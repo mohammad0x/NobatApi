@@ -216,10 +216,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.post_key.title
 
-class comment_form(ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['desc', 'rate']
+
 class reply_form(ModelForm):
     class Meta:
         model = Comment
