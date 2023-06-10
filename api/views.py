@@ -227,14 +227,29 @@ class myService(APIView):
 class Hair_stylist(generics.GenericAPIView):
     models = Comment
     serializer_class = CommentSerializer
-    def post(self, request, id , *args , **kwargs):
-        data = {
-            'user': request.user.id,
-            'rate':request.data.get('rate'),
-            'desc':request.data.get('desc'),
-            'date': timezone.now(),
-            'post_key':id,
-        }
+    def post(self, request, id, *args, **kwargs):
+        is_reply = request.data.get('is_reply')
+        print(is_reply)
+        if is_reply is None:
+            data = {
+                'user': request.user.id,
+                'reply': None,
+                'rate':request.data.get('rate'),
+                'desc':request.data.get('desc'),
+                'date': timezone.now(),
+                'post_key':id,
+                'is_reply': False
+            }
+        else:
+            data = {
+                'user': request.user.id,
+                'reply': '2',
+                'rate':request.data.get('rate'),
+                'desc':request.data.get('desc'),
+                'date': timezone.now(),
+                'post_key':id,
+                'is_reply': True
+            }
         serializer = CommentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()

@@ -120,7 +120,7 @@ class ImageSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('user', 'post_key', 'rate', 'desc', 'date')
+        fields = ('user', 'reply', 'post_key', 'rate', 'desc', 'date', 'is_reply')
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -131,3 +131,9 @@ class DisLikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = DisLike
         fields = ('image', 'user')
+
+
+class ReplySerializer(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['desc']

@@ -207,8 +207,8 @@ class DisLike(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(MyUser, related_name='user', on_delete=models.CASCADE)
     reply = models.ForeignKey("self", related_name='commentid', on_delete=models.CASCADE, blank=True, null=True)
-    HairStyle = models.ForeignKey(Create_Service, related_name='post_key', on_delete=models.CASCADE)
-    rate = models.PositiveIntegerField(default=1)
+    post_key = models.ForeignKey(Create_Service, related_name='post_key', on_delete=models.CASCADE)
+    rate = models.PositiveIntegerField(blank=True, null=True)
     desc = models.TextField(max_length=700)
     date = models.DateTimeField(default=timezone.now)
     is_reply = models.BooleanField(default=False)
@@ -216,8 +216,3 @@ class Comment(models.Model):
     def __str__(self):
         return self.post_key.title
 
-
-class reply_form(ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['desc']
