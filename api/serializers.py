@@ -116,9 +116,21 @@ class ReserveSerializer(serializers.ModelSerializer):
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ('poster', 'image', 'like', 'dislike')
+        fields = ('poster', 'image')
 
 class CommentSerializer(serializers.ModelSerializer):
+    # user = UserSerializer
+    # HairStyle = CreateServiceSerializer
     class Meta:
         model = Comment
-        fields = ('user', 'reply', 'post_key', 'rate', 'desc', 'date', 'is_reply')
+        fields = ('user', 'reply', 'HairStyle', 'rate', 'desc', 'date', 'is_reply')
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ('image', 'user')
+
+class DisLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DisLike
+        fields = ('image', 'user')

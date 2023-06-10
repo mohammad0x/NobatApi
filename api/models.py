@@ -195,13 +195,19 @@ class Reserve(models.Model):
 class Image(models.Model):
     poster = models.ForeignKey(Create_Service, on_delete=models.CASCADE, related_name='post')
     image = models.ImageField(upload_to='pos_image/')
-    like = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, blank=True, related_name = 'user_like')
-    dislike = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, blank=True, related_name='user_dislike')
+
+class Like(models.Model):
+    user = models.ForeignKey(MyUser, on_delete= models.CASCADE, null=True, blank=True, related_name='user_like')
+    image = models.ForeignKey(Image, on_delete= models.CASCADE, null=True, blank=True, related_name='image_like')
+
+class DisLike(models.Model):
+    user = models.ForeignKey(MyUser, on_delete= models.CASCADE, null=True, blank=True, related_name='user_dislike')
+    image = models.ForeignKey(Image, on_delete= models.CASCADE, null=True, blank=True, related_name='image_dislike')
 
 class Comment(models.Model):
     user = models.ForeignKey(MyUser, related_name='user', on_delete=models.CASCADE)
     reply = models.ForeignKey("self", related_name='commentid', on_delete=models.CASCADE, blank=True, null=True)
-    post_key = models.ForeignKey(Create_Service, related_name='post_key', on_delete=models.CASCADE)
+    HairStyle = models.ForeignKey(Create_Service, related_name='post_key', on_delete=models.CASCADE)
     rate = models.PositiveIntegerField(default=1)
     desc = models.TextField(max_length=700)
     date = models.DateTimeField(default=timezone.now)

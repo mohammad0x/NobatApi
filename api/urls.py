@@ -24,4 +24,6 @@ urlpatterns = [
     path('api/search/<str:searchs>', Search.as_view(), name='Search'),
     path('api/myService', myService.as_view(), name='myService'),
     path('api/Hair_stylist/<int:id>', Hair_stylist.as_view(), name='Hair_stylist'),
+    path('api/like/<int:id>', like.as_view(), name='like'),
+    path('api/dislike/<int:id>', dislike.as_view(), name='like'),
 ]
