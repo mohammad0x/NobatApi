@@ -1,5 +1,6 @@
 from .views import *
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from knox import views as knox_views
 
 app_name = 'app'
@@ -26,4 +27,20 @@ urlpatterns = [
     path('api/Hair_stylist/<int:id>', Hair_stylist.as_view(), name='Hair_stylist'),
     path('api/like/<int:id>', like.as_view(), name='like'),
     path('api/dislike/<int:id>', dislike.as_view(), name='like'),
+    # reset password
+    path('api/password-reset/', auth_views.PasswordResetView.as_view(template_name='api/password_reset.html',
+                                                                 success_url=reverse_lazy('password_reset_done')),
+         name='password_reset'),
+    path('api/password-reset-confirm/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(),
+         name='password_reset_confirm'),
+
+    path('api/password-reset/done/',
+         auth_views.PasswordResetDoneView.as_view(template_name='api/password_reset_done.html'),
+         name='password_reset_done'),
+
+
+    path('api/password-reset-complete/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='api/password_reset_complete.html'),
+         name='password_reset_complete'),
+
 ]
