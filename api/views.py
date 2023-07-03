@@ -61,8 +61,6 @@ class LoginAPI(KnoxLoginView):
         login(request, user)
         return super(LoginAPI, self).post(request, format=None)
 
-
-
 class categoryCreateService(APIView):
     def get(self, request, format=None):
         data = Category_createService.objects.all().values()
